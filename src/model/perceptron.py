@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import random
 import sys
 import logging
 
@@ -34,8 +34,9 @@ class Perceptron(Classifier):
     testSet : list
     weight : list
     """
-    def __init__(self, train, valid, test, 
-                                    learningRate=0.01, epochs=50):
+
+    def __init__(self, train, valid, test,
+                 learningRate=0.01, epochs=50):
 
         self.learningRate = learningRate
         self.epochs = epochs
@@ -46,7 +47,7 @@ class Perceptron(Classifier):
 
         # Initialize the weight vector with small random values
         # around 0 and0.1
-        self.weight = np.random.rand(self.trainingSet.input.shape[1])/100
+        self.weight = np.random.rand(self.trainingSet.input.shape[1]) / 100
 
     def train(self, verbose=True):
         """Train the perceptron with the perceptron learning algorithm.
@@ -56,9 +57,23 @@ class Perceptron(Classifier):
         verbose : boolean
             Print logging messages with validation accuracy if verbose is True.
         """
-        
+
         # Write your code to train the perceptron here
         pass
+
+        input_data = self.trainingSet.input
+
+        vector_count = input_data.shape[0]
+
+        for epoch in range(self.epochs):
+            weight_update = np.zeros((1, input_data.shape[1]))
+            data_count = range(vector_count)
+            random.shuffle(data_count)
+            for data_index in data_count:
+                x = input_data[data_index, :]
+                if self.fire(x) != self.trainingSet.label[data_index]:
+                    weight_update += x
+            self.weight += self.learningRate * weight_update.reshape(-1)
 
     def classify(self, testInstance):
         """Classify a single instance.
@@ -73,7 +88,7 @@ class Perceptron(Classifier):
             True if the testInstance is recognized as a 7, False otherwise.
         """
         # Write your code to do the classification on an input image
-        pass
+        return not self.fire(testInstance)
 
     def evaluate(self, test=None):
         """Evaluate a whole dataset.
@@ -97,7 +112,7 @@ class Perceptron(Classifier):
     def updateWeights(self, input, error):
         # Write your code to update the weights of the perceptron here
         pass
-         
+
     def fire(self, input):
         """Fire the output of the perceptron corresponding to the input """
         return Activation.sign(np.dot(np.array(input), self.weight))
