@@ -67,13 +67,12 @@ class Perceptron(Classifier):
 
         for epoch in range(self.epochs):
             weight_update = np.zeros((1, input_data.shape[1]))
-            data_count = range(vector_count)
-            random.shuffle(data_count)
-            for data_index in data_count:
+            for data_index in range(vector_count):
                 x = input_data[data_index, :]
-                if self.fire(x) != self.trainingSet.label[data_index]:
-                    weight_update += x
-            self.weight += self.learningRate * weight_update.reshape(-1)
+                activation = self.fire(x)
+                label = self.trainingSet.label[data_index]
+
+                self.updateWeights(x, label - activation)
 
     def classify(self, testInstance):
         """Classify a single instance.
@@ -88,7 +87,7 @@ class Perceptron(Classifier):
             True if the testInstance is recognized as a 7, False otherwise.
         """
         # Write your code to do the classification on an input image
-        return not self.fire(testInstance)
+        return self.fire(testInstance)
 
     def evaluate(self, test=None):
         """Evaluate a whole dataset.
@@ -111,7 +110,7 @@ class Perceptron(Classifier):
 
     def updateWeights(self, input, error):
         # Write your code to update the weights of the perceptron here
-        pass
+        self.weight += input * error * self.learningRate
 
     def fire(self, input):
         """Fire the output of the perceptron corresponding to the input """
