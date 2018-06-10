@@ -95,7 +95,7 @@ class Perceptron(Classifier):
         bool :
             True if the testInstance is recognized as a 7, False otherwise.
         """
-        return self.fire(testInstance)
+        return self.fire(testInstance) >= 0.5
 
     def evaluate(self, test=None):
         """Evaluate a whole dataset.

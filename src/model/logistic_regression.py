@@ -45,7 +45,7 @@ class LogisticRegression(Classifier):
         self.testSet = test
 
         # Initialize the weight vector with small values
-        self.weight = 0.01*np.random.randn(self.trainingSet.input.shape[1])
+        self.weight = 0.01 * np.random.randn(self.trainingSet.input.shape[1])
 
     def train(self, verbose=True):
         """Train the Logistic Regression.
@@ -56,8 +56,18 @@ class LogisticRegression(Classifier):
             Print logging messages with validation accuracy if verbose is True.
         """
 
-        pass
-        
+        for epoch in range(self.epochs):
+
+            gradient = np.zeros(self.trainingSet.input.shape[1])
+
+            for x, label in zip(self.trainingSet.input,
+                                self.trainingSet.label):
+                prediction = self.fire(x)
+                # error = label - prediction
+
+                gradient += x * (prediction - label)
+            self.updateWeights(gradient)
+
     def classify(self, testInstance):
         """Classify a single instance.
 
@@ -70,7 +80,7 @@ class LogisticRegression(Classifier):
         bool :
             True if the testInstance is recognized as a 7, False otherwise.
         """
-        pass
+        return self.fire(testInstance) > 0.5
 
     def evaluate(self, test=None):
         """Evaluate a whole dataset.
@@ -92,7 +102,7 @@ class LogisticRegression(Classifier):
         return list(map(self.classify, test))
 
     def updateWeights(self, grad):
-        pass
+        self.weight -= grad * self.learningRate
 
     def fire(self, input):
         # Look at how we change the activation function here!!!!
