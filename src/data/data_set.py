@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import numpy as np
 
 
 class DataSet(object):
@@ -38,6 +39,12 @@ class DataSet(object):
             self.label = list(map(lambda a: 1 
                             if str(a) == targetDigit else 0, 
                             self.label))
+        else:
+            def my_map(elem):
+                tmp = np.zeros(10)
+                tmp[elem] = 1
+                return tmp
+            self.label = list(map(my_map, self.label))
 
     def __iter__(self):
         return self.input.__iter__()

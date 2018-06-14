@@ -5,7 +5,7 @@ import numpy as np
 from util.activation_functions import Activation
 
 
-class LogisticLayer():
+class LogisticLayer:
     """
     A layer of neural
 
@@ -45,12 +45,12 @@ class LogisticLayer():
         self.activationString = activation
         self.activation = Activation.getActivation(self.activationString)
         self.activationDerivative = Activation.getDerivative(
-                                    self.activationString)
+            self.activationString)
 
         self.nIn = nIn
         self.nOut = nOut
 
-        self.inp = np.ndarray((nIn+1, 1))
+        self.inp = np.ndarray((nIn + 1, 1))
         self.inp[0] = 1
         self.outp = np.ndarray((nOut, 1))
         self.deltas = np.zeros((nOut, 1))
@@ -58,9 +58,9 @@ class LogisticLayer():
         # You can have better initialization here
         if weights is None:
             rns = np.random.RandomState(int(time.time()))
-            self.weights = rns.uniform(size=(nIn + 1, nOut))-0.5
+            self.weights = rns.uniform(size=(nIn + 1, nOut)) - 0.5
         else:
-            assert(weights.shape == (nIn + 1, nOut))
+            assert (weights.shape == (nIn + 1, nOut))
             self.weights = weights
 
         self.isClassifierLayer = isClassifierLayer
@@ -149,7 +149,6 @@ class LogisticLayer():
             self.weights[:, neuron] -= (learningRate *
                                         self.deltas[neuron] *
                                         self.inp)
-        
 
     def _fire(self, inp):
         return self.activation(np.dot(inp, self.weights))
