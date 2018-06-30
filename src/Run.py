@@ -36,9 +36,9 @@ def main():
     myMLPClassifier = MultilayerPerceptron(data2.trainingSet,
                                            data2.validationSet,
                                            data2.testSet,
-                                           learningRate=0.1,
+                                           learningRate=0.2,
                                            # learningRate=0.005,
-                                           epochs=40)
+                                           epochs=30)
 
     # Report the result #
     print("=========================")
@@ -75,7 +75,7 @@ def main():
     print("=========================")
     evaluator = Evaluator()
 
-    print("Result of the stupid recognizer:")
+    # print("Result of the stupid recognizer:")
     # evaluator.printComparison(data.testSet, stupidPred)
     # evaluator.printAccuracy(data.testSet, stupidPred)
     #
@@ -91,9 +91,9 @@ def main():
     evaluator.printAccuracy(data2.testSet, mlpPred)
 
     # Draw
-    # plot = PerformancePlot("Logistic Regression validation")
-    # plot.draw_performance_epoch(myLRClassifier.performances,
-    #                            myLRClassifier.epochs)
+    plot = PerformancePlot("MLP validation")
+    plot.draw_performance_epoch(myMLPClassifier.performances_training,
+                                myMLPClassifier.performances_validation, myMLPClassifier.epochs)
 
 
 if __name__ == '__main__':

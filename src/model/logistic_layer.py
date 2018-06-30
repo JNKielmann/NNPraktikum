@@ -139,7 +139,7 @@ class LogisticLayer:
         # the other is computeOutputLayerDerivative or such.
         return self.deltas
 
-    def updateWeights(self, learningRate):
+    def updateWeights(self, learningRate, weightDecay):
         """
         Update the weights of the layer
         """
@@ -147,12 +147,7 @@ class LogisticLayer:
         # weight updating as gradient descent principle
 
         self.weights -= learningRate * (self.inp.reshape(-1, 1) * self.deltas.reshape(1, -1) -
-                                        self.weights * 0.000001)
-
-        # for neuron in range(0, self.nOut):
-        #     self.weights[:, neuron] -= (learningRate *
-        #                                 self.deltas[neuron] *
-        #                                 self.inp) - (self.weights[:, neuron] * learningRate * 0.00001)
+                                        self.weights * weightDecay)
 
     def _fire(self, inp):
         return self.activation(np.dot(inp, self.weights))
