@@ -74,8 +74,9 @@ class Activation:
         sm = Activation.softmax(netOutput)
         # TODO: maybe fix?
         SM = sm.reshape((-1, 1))
-        return np.sum(np.diag(sm) - np.dot(SM, SM.T), axis=1)
-        
+        return netOutput * (1.0 - netOutput)
+        # return np.diag((np.diag(sm) - np.dot(SM, SM.T)))
+
     @staticmethod
     def getActivation(str):
         """

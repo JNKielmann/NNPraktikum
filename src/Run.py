@@ -36,8 +36,9 @@ def main():
     myMLPClassifier = MultilayerPerceptron(data2.trainingSet,
                                            data2.validationSet,
                                            data2.testSet,
-                                           learningRate=0.005,
-                                           epochs=30)
+                                           learningRate=0.1,
+                                           # learningRate=0.005,
+                                           epochs=40)
 
     # Report the result #
     print("=========================")
@@ -87,7 +88,7 @@ def main():
     # evaluator.printAccuracy(data.testSet, lrPred)
 
     print("\nResult of the MLP recognizer:")
-    evaluator.printAccuracy(data.testSet, mlpPred)
+    evaluator.printAccuracy(data2.testSet, mlpPred)
 
     # Draw
     # plot = PerformancePlot("Logistic Regression validation")

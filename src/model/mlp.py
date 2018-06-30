@@ -163,12 +163,17 @@ class MultilayerPerceptron(Classifier):
                       .format(epoch + 1, self.epochs))
 
             self._train_one_epoch()
+            self.learningRate = self.learningRate / 2 if (epoch % 10) == 9 else self.learningRate
 
             if verbose:
                 accuracy = accuracy_score(self.validationSet.label,
                                           self.evaluate(self.validationSet))
+                accuracyTraining = accuracy_score(self.trainingSet.label,
+                                                  self.evaluate(self.trainingSet))
                 # Record the performance of each epoch for later usages
                 # e.g. plotting, reporting..
+                print("Accuracy on training: {0:.2f}%"
+                      .format(accuracyTraining * 100))
                 self.performances.append(accuracy)
                 print("Accuracy on validation: {0:.2f}%"
                       .format(accuracy * 100))
@@ -178,11 +183,14 @@ class MultilayerPerceptron(Classifier):
         for img, label in zip(self.trainingSet.input,
                               self.trainingSet.label):
 
+            oneHotLabel = np.zeros(self.layers[-1].nOut)
+            oneHotLabel[label] = 1
+
             self._feed_forward(img)
 
-            print(self._compute_error(label))
+            # print(self._compute_error(oneHotLabel))
 
-            self._update_weights(self.learningRate, label)
+            self._update_weights(self.learningRate, oneHotLabel)
 
     def classify(self, test_instance):
         # Classify an instance given the model of the classifier
